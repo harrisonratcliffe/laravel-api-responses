@@ -3,13 +3,11 @@
 use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
 use Harrisonratcliffe\LaravelApiHandler\Services\ApiResponseService;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 it('renders a not found http exception', function () {
-    $handler = new ApiExceptionHandler(new ApiResponseService());
+    $handler = new ApiExceptionHandler(new ApiResponseService);
     $exception = new NotFoundHttpException('Test Not Found');
 
     /** @var JsonResponse $response */
@@ -20,8 +18,8 @@ it('renders a not found http exception', function () {
 });
 
 it('renders an authentication exception', function () {
-    $handler = new ApiExceptionHandler(new ApiResponseService());
-    $exception = new AuthenticationException();
+    $handler = new ApiExceptionHandler(new ApiResponseService);
+    $exception = new AuthenticationException;
 
     /** @var JsonResponse $response */
     $response = $handler->renderApiException($exception);
