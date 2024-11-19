@@ -43,7 +43,6 @@
         "lint": "vendor/bin/pint",
         "format": "vendor/bin/rector process",
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "test": "vendor/bin/phpunit",
         "pest": "vendor/bin/pest"
     },
     "config": {
