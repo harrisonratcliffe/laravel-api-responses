@@ -6,14 +6,11 @@ return [
      * This should only be used in development as it may
      * leak sensitive information
      */
-
     'debug_mode' => config('app.debug', false),
-
 
     /**
      * Default Response Options
      */
-
     'success_response' => 'API request processed successfully',
     'success_status_code' => 200,
 
