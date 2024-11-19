@@ -1,0 +1,67 @@
+{
+    "name": "harrisonratcliffe/laravel-api-handler",
+    "description": "A Laravel package to easily handle API responses and exceptions",
+    "keywords": [
+        "laravel",
+        "laravel-api-handler"
+    ],
+    "homepage": "https://github.com/harrisonratcliffe/laravel-api-handler",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Harrison Ratcliffe",
+            "email": "email@harrisonr.uk"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0",
+        "spatie/laravel-package-tools": "^1.14"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^7.0",
+        "nunomaduro/larastan": "^2.0",
+        "orchestra/testbench": "^8.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "phpunit/phpunit": "^10.0",
+        "rector/rector": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Harrisonratcliffe\\LaravelApiHandler\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Harrisonratcliffe\\LaravelApiHandler\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": "vendor/bin/pint",
+        "format": "vendor/bin/rector process",
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "test": "vendor/bin/phpunit",
+        "pest": "vendor/bin/pest"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Harrisonratcliffe\\LaravelApiHandler\\LaravelApiHandlerServiceProvider"
+            ],
+            "aliases": {
+                "LaravelApiHandler": "Harrisonratcliffe\\LaravelApiHandler\\Facades\\LaravelApiHandler"
+            }
+        },
+        "minimum-stability": "stable",
+        "prefer-stable": true
+    }
+}
