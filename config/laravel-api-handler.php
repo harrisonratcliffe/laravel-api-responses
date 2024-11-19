@@ -8,7 +8,6 @@ return [
      */
     'debug_mode' => config('app.debug', false),
 
-
     /**
      * Default Response Options
      */
@@ -18,5 +17,5 @@ return [
     'http_not_found' => 'The resource or endpoint cannot be found',
     'unauthenticated' => 'You are not authenticated',
     'model_not_found' => 'Unable to locate the %s you requested',
-    'unknown_error' => 'An unknown error occurred'
+    'unknown_error' => 'An unknown error occurred',
 ];
