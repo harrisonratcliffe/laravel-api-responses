@@ -20,6 +20,6 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
         SetList::EARLY_RETURN,
-//        LaravelSetList::LARAVEL_100,
+        //        LaravelSetList::LARAVEL_100,
     ]);
 };

@@ -4,7 +4,7 @@ use Harrisonratcliffe\LaravelApiHandler\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 
 it('returns a success response', function () {
-    $service = new ApiResponseService();
+    $service = new ApiResponseService;
     /** @var JsonResponse $response */
     $response = $service->successResponse('Operation successful', ['key' => 'value']);
 
@@ -15,7 +15,7 @@ it('returns a success response', function () {
 });
 
 it('returns an error response', function () {
-    $service = new ApiResponseService();
+    $service = new ApiResponseService;
     /** @var JsonResponse $response */
     $response = $service->errorResponse('An error occurred', 400);
 
