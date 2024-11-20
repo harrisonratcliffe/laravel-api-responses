@@ -200,7 +200,7 @@ use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
                 return app(ApiExceptionHandler::class)->renderApiException($exception);
             }
 
-            return $this->render($request, $exception);
+            return parent::render($request, $exception);
         });
     })
 ```
