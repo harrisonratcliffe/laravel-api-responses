@@ -199,9 +199,8 @@ use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
             if ($request->is('api/*')) {
                 return app(ApiExceptionHandler::class)->renderApiException($exception);
             }
-
-            return parent::render($request, $exception);
         });
+        // your other code here
     })
 ```
 
@@ -211,14 +210,13 @@ To configure the API Exception Handler on Laravel 10, add the following configur
 ```php
 use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
 
-// your other code here
 public function render($request, Throwable $exception)
     {
+    // your other code here
         if ($request->is('api/*')) {
             return app(ApiExceptionHandler::class)->renderApiException($exception);
         }
-
-        return parent::render($request, $exception);
+    // your other code here
     }
 ```
 
