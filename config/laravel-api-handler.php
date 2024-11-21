@@ -11,11 +11,11 @@ return [
     /**
      * Default Response Options
      */
-    'success_response' => 'API request processed successfully',
+    'success_response' => 'API request processed successfully.',
     'success_status_code' => 200,
 
-    'http_not_found' => 'The resource or endpoint cannot be found',
-    'unauthenticated' => 'You are not authenticated',
-    'model_not_found' => 'Unable to locate the %s you requested',
-    'unknown_error' => 'An unknown error occurred',
+    'http_not_found' => 'The requested resource or endpoint could not be located.',
+    'unauthenticated' => 'You must be logged in to access this resource. Please provide valid credentials.',
+    'model_not_found' => 'The requested resource could not be found. for doesn\'t exist.',
+    'unknown_error' => 'An unexpected error has occurred. Please try again later or contact support if the issue persists.',
 ];
