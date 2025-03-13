@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.0.5 - 2025-03-13
+
+### What's Changed
+
+* build(deps): bump aglipanci/laravel-pint-action from 2.3.1 to 2.4 by @dependabot in https://github.com/harrisonratcliffe/laravel-api-handler/pull/5
+* build(deps): bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/harrisonratcliffe/laravel-api-handler/pull/6
+* build(deps): bump aglipanci/laravel-pint-action from 2.4 to 2.5 by @dependabot in https://github.com/harrisonratcliffe/laravel-api-handler/pull/7
+* Add support for Laravel 7+
+
+**Full Changelog**: https://github.com/harrisonratcliffe/laravel-api-handler/compare/v1.0.4...v1.0.5
+
 ## v1.0.4 - 2024-11-19
 
 ### What's Changed
