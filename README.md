@@ -52,7 +52,7 @@ Before getting started with Laravel API Handler, ensure your runtime environment
 
 - **Programming Language:** PHP
 - **Package Manager:** Composer
-- **Laravel Version:** 10.0 or 11.0 *(may work in older version)*
+- **Laravel Version:** 7 or later
 
 
 ### ⚙️ Installation
@@ -187,9 +187,9 @@ public function store()
 
 ### API Exception Handler
 
-#### Laravel 11
+#### Laravel 11-12
 
-To configure the API Exception Handler on Laravel 11, add the following configuration to your `boostrap/app.php` file:
+To configure the API Exception Handler on Laravel 11-12, add the following configuration to your `boostrap/app.php` file:
 ```php
 use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
 
@@ -204,9 +204,9 @@ use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
     })
 ```
 
-#### Laravel 10
+#### Laravel 7-10
 
-To configure the API Exception Handler on Laravel 10, add the following configuration inside your render method of your `app/Exceptions/Handler.php` file:
+To configure the API Exception Handler on Laravel 7-10, add the following configuration inside your render method of your `app/Exceptions/Handler.php` file:
 ```php
 use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
 
