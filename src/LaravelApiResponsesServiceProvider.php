@@ -11,7 +11,7 @@ class LaravelApiResponsesServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/api-responses.php', 'api-responses');
 
-        $this->app->singleton('api-responses', function () {
+        $this->app->singleton('api-response', function () {
             return new ApiResponseService;
         });
     }

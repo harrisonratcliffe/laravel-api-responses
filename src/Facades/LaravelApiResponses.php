@@ -8,6 +8,6 @@ class LaravelApiResponses extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'api-responses';
+        return 'api-response';
     }
 }
