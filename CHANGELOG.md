@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.0 - 2025-03-21
+
+**Full Changelog**: https://github.com/harrisonratcliffe/laravel-api-handler/compare/v1.0.5...v1.1.0
+
 ## v1.0.5 - 2025-03-13
 
 ### What's Changed
