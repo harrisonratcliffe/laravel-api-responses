@@ -1,11 +1,11 @@
 {
-    "name": "harrisonratcliffe/laravel-api-handler",
+    "name": "harrisonratcliffe/laravel-api-responses",
     "description": "A Laravel package to easily handle API responses and exceptions",
     "keywords": [
         "laravel",
         "laravel-api-handler"
     ],
-    "homepage": "https://github.com/harrisonratcliffe/laravel-api-handler",
+    "homepage": "https://github.com/harrisonratcliffe/laravel-api-responses",
     "license": "MIT",
     "authors": [
         {
@@ -54,10 +54,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Harrisonratcliffe\\LaravelApiHandler\\LaravelApiHandlerServiceProvider"
+                "LaravelApiResponsesServiceProvider"
             ],
             "aliases": {
-                "LaravelApiHandler": "Harrisonratcliffe\\LaravelApiHandler\\Facades\\LaravelApiHandler"
+                "LaravelApiHandler": "LaravelApiResponses"
             }
         },
         "minimum-stability": "stable",

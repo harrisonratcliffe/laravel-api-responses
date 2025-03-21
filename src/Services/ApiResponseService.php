@@ -1,6 +1,6 @@
 <?php
 
-namespace Harrisonratcliffe\LaravelApiHandler\Services;
+namespace Harrisonratcliffe\LaravelApiResponses\Services;
 
 use Illuminate\Http\JsonResponse;
 
@@ -12,11 +12,11 @@ class ApiResponseService
     public function successResponse(?string $message = null, mixed $data = null, ?int $statusCode = null): JsonResponse
     {
         if ($message === null) {
-            $message = config('laravel-api-handler.success_response');
+            $message = config('api-responses.success_response');
         }
 
         if ($statusCode === null) {
-            $statusCode = config('laravel-api-handler.success_status_code');
+            $statusCode = config('api-responses.success_status_code');
         }
 
         return response()->json([

@@ -1,9 +1,9 @@
 <?php
 
-namespace Harrisonratcliffe\LaravelApiHandler;
+namespace Harrisonratcliffe\LaravelApiResponses;
 
 use Exception;
-use Harrisonratcliffe\LaravelApiHandler\Services\ApiResponseService;
+use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +35,7 @@ class ApiExceptionHandler extends Exception
     {
         $responseData = $this->prepareApiExceptionData($exception);
 
-        $debugData = config('laravel-api-handler.debug_mode') ? $this->extractExceptionData($exception) : null;
+        $debugData = config('api-responses.debug_mode') ? $this->extractExceptionData($exception) : null;
 
         return $this->apiResponseService->errorResponse($responseData['message'], $responseData['statusCode'], null, $debugData);
     }
@@ -52,16 +52,16 @@ class ApiExceptionHandler extends Exception
         $message = $exception->getMessage();
 
         if ($exception instanceof NotFoundHttpException) {
-            $responseData['message'] = $message === '' || $message === '0' ? config('laravel-api-handler.http_not_found') : $message;
+            $responseData['message'] = $message === '' || $message === '0' ? config('api-responses.http_not_found') : $message;
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof MethodNotAllowedHttpException) {
             $responseData['message'] = $message;
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = sprintf(config('laravel-api-handler.model_not_found'), $this->modelNotFoundMessage($exception));
+            $responseData['message'] = sprintf(config('api-responses.model_not_found'), $this->modelNotFoundMessage($exception));
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof AuthenticationException) {
-            $responseData['message'] = config('laravel-api-handler.unauthenticated');
+            $responseData['message'] = config('api-responses.unauthenticated');
             $responseData['statusCode'] = 401;
         } elseif ($exception instanceof ValidationException) {
             $responseData['message'] = $message;
@@ -101,7 +101,7 @@ class ApiExceptionHandler extends Exception
      */
     private function prepareExceptionMessage(Throwable $exception): string
     {
-        return $exception->getMessage() ?: config('laravel-api-handler.unknown_error');
+        return $exception->getMessage() ?: config('api-responses.unknown_error');
     }
 
     /**

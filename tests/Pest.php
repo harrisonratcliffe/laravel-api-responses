@@ -1,5 +1,5 @@
 <?php
 
-use Harrisonratcliffe\LaravelApiHandler\Tests\TestCase;
+use Harrisonratcliffe\LaravelApiResponses\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

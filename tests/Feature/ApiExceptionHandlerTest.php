@@ -1,7 +1,7 @@
 <?php
 
-use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
-use Harrisonratcliffe\LaravelApiHandler\Services\ApiResponseService;
+use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
+use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

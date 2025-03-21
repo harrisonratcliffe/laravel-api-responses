@@ -1,6 +1,6 @@
 <?php
 
-use Harrisonratcliffe\LaravelApiHandler\Services\ApiResponseService;
+use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 
 it('returns a success response', function () {

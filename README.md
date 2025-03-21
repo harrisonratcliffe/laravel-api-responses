@@ -1,12 +1,12 @@
-<p align="center"><h1 align="center">LARAVEL API HANDLER</h1></p>
+<p align="center"><h1 align="center">LARAVEL API RESPONSES</h1></p>
 <p align="center">
-	<em><code>composer require harrisonratcliffe/laravel-api-handler</code></em>
+	<em><code>composer require harrisonratcliffe/laravel-api-responses</code></em>
 </p>
 <p align="center">
-	<img src="https://img.shields.io/github/license/harrisonratcliffe/laravel-api-handler?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
-	<img src="https://img.shields.io/github/last-commit/harrisonratcliffe/laravel-api-handler?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
-	<img src="https://img.shields.io/github/languages/top/harrisonratcliffe/laravel-api-handler?style=default&color=0080ff" alt="repo-top-language">
-	<img src="https://img.shields.io/github/languages/count/harrisonratcliffe/laravel-api-handler?style=default&color=0080ff" alt="repo-language-count">
+	<img src="https://img.shields.io/github/license/harrisonratcliffe/laravel-api-responses?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
+	<img src="https://img.shields.io/github/last-commit/harrisonratcliffe/laravel-api-responses?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/top/harrisonratcliffe/laravel-api-responses?style=default&color=0080ff" alt="repo-top-language">
+	<img src="https://img.shields.io/github/languages/count/harrisonratcliffe/laravel-api-responses?style=default&color=0080ff" alt="repo-language-count">
 </p>
 <p align="center"><!-- default option, no dependency badges. -->
 </p>
@@ -48,7 +48,7 @@ A Laravel package to easily handle API responses and exceptions.
 
 ### ☑️ Prerequisites
 
-Before getting started with Laravel API Handler, ensure your runtime environment meets the following requirements:
+Before getting started with Laravel API Responses, ensure your runtime environment meets the following requirements:
 
 - **Programming Language:** PHP
 - **Package Manager:** Composer
@@ -57,18 +57,18 @@ Before getting started with Laravel API Handler, ensure your runtime environment
 
 ### ⚙️ Installation
 
-Install laravel-api-handler using one of the following methods:
+Install laravel-api-responses using one of the following methods:
 
 **Build from source:**
 
 1. Install the package via Composer:
 ```sh
-composer require harrisonratcliffe/laravel-api-handler
+composer require harrisonratcliffe/laravel-api-responses
 ```
 
 2. Publish the config with:
 ```sh
-php artisan vendor:publish --tag="laravelapihandler-config"
+php artisan vendor:publish --tag="apiresponses-config"
 ```
 
 ## 🔧 Configuration Options
@@ -112,7 +112,7 @@ The Laravel API Handler package provides a flexible configuration file that allo
 - **`unknown_error`**: Fallback message for unexpected errors
 
 ### 🛠️ Customization Tips
-- Modify the config file located at `config/laravel-api-handler.php`
+- Modify the config file located at `config/api-responses.php`
 - Tailor messages to match your application's voice
 - Keep error messages informative but not overly technical
 - Ensure messages are user-friendly and provide clear guidance
@@ -123,12 +123,12 @@ The Laravel API Handler package provides a flexible configuration file that allo
 
 ```php
 // In your controller
-use Harrisonratcliffe\LaravelApiHandler\Facades\LaravelApiHandler;
+use Harrisonratcliffe\LaravelApiResponses\Facades\LaravelApiResponses;
 
 public function index()
 {
     $data = User::all();
-    return LaravelApiHandler::successResponse(
+    return LaravelApiResponses::success(
         'Users retrieved successfully', 
         $data
     );
@@ -152,7 +152,7 @@ public function index()
 ```php
 public function store()
 {
-    return LaravelApiHandler::errorResponse(
+    return LaravelApiResponses::error(
         'Resource creation failed', 
         422,
         'https://docs.yourapi.com/errors/resource-creation'
@@ -191,7 +191,7 @@ public function store()
 
 To configure the API Exception Handler on Laravel 11-12, add the following configuration to your `boostrap/app.php` file:
 ```php
-use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
+use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
 
 ->withExceptions(function (Exceptions $exceptions) {
         // your other code here
@@ -208,7 +208,7 @@ use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
 
 To configure the API Exception Handler on Laravel 7-10, add the following configuration inside your render method of your `app/Exceptions/Handler.php` file:
 ```php
-use Harrisonratcliffe\LaravelApiHandler\ApiExceptionHandler;
+use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
 
 public function render($request, Throwable $exception)
     {
@@ -247,9 +247,9 @@ vendor/bin/pest
 
 Contributions are welcome!
 
-- **💬 [Join the Discussions](https://github.com/harrisonratcliffe/laravel-api-handler/discussions)**: Share your insights, provide feedback, or ask questions.
-- **🐛 [Report Issues](https://github.com/harrisonratcliffe/laravel-api-handler/issues)**: Submit bugs found or log feature requests for the `laravel-api-handler` project.
-- **💡 [Submit Pull Requests](https://github.com/harrisonratcliffe/laravel-api-handler/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
+- **💬 [Join the Discussions](https://github.com/harrisonratcliffe/laravel-api-responses/discussions)**: Share your insights, provide feedback, or ask questions.
+- **🐛 [Report Issues](https://github.com/harrisonratcliffe/laravel-api-responses/issues)**: Submit bugs found or log feature requests for the `laravel-api-responses` project.
+- **💡 [Submit Pull Requests](https://github.com/harrisonratcliffe/laravel-api-responses/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
 
 <details closed>
 <summary>Contributing Guidelines</summary>
@@ -257,7 +257,7 @@ Contributions are welcome!
 1. **Fork the Repository**: Start by forking the project repository to your github account.
 2. **Clone Locally**: Clone the forked repository to your local machine using a git client.
    ```sh
-   git clone https://github.com/harrisonratcliffe/laravel-api-handler
+   git clone https://github.com/harrisonratcliffe/laravel-api-responses
    ```
 3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
    ```sh
@@ -280,8 +280,8 @@ Contributions are welcome!
 <summary>Contributor Graph</summary>
 <br>
 <p align="left">
-   <a href="https://github.com{/harrisonratcliffe/laravel-api-handler/}graphs/contributors">
-      <img src="https://contrib.rocks/image?repo=harrisonratcliffe/laravel-api-handler">
+   <a href="https://github.com{/harrisonratcliffe/laravel-api-responses/}graphs/contributors">
+      <img src="https://contrib.rocks/image?repo=harrisonratcliffe/laravel-api-responses">
    </a>
 </p>
 </details>
@@ -290,7 +290,7 @@ Contributions are welcome!
 
 ## 🎗 License
 
-This project is protected under the [MIT](https://choosealicense.com/licenses/mit) License. For more details, refer to the [LICENSE](https://github.com/harrisonratcliffe/laravel-api-handler/blob/main/LICENSE) file.
+This project is protected under the [MIT](https://choosealicense.com/licenses/mit) License. For more details, refer to the [LICENSE](https://github.com/harrisonratcliffe/laravel-api-responses/blob/main/LICENSE) file.
 
 [//]: # (---)
 
