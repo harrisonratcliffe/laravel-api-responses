@@ -58,10 +58,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaravelApiResponsesServiceProvider"
+                "Harrisonratcliffe\\LaravelApiResponses\\LaravelApiResponsesServiceProvider"
             ],
             "aliases": {
-                "LaravelApiResponses": "LaravelApiResponses"
+                "LaravelApiHandler": "Harrisonratcliffe\\LaravelApiResponses\\Facades\\LaravelApiResponses"
             }
         },
         "minimum-stability": "stable",
