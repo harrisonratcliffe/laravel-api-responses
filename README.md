@@ -55,11 +55,9 @@ Before getting started with Laravel API Responses, ensure your runtime environme
 - **Laravel Version:** 7 or later
 
 
-### ⚙️ Installation
+## ⚙️ Installation
 
-Install laravel-api-responses using one of the following methods:
-
-**Build from source:**
+Install laravel-api-responses using the following method:
 
 1. Install the package via Composer:
 ```sh
@@ -69,6 +67,41 @@ composer require harrisonratcliffe/laravel-api-responses
 2. Publish the config with:
 ```sh
 php artisan vendor:publish --tag="apiresponses-config"
+```
+
+### API Exception Handler
+
+#### Laravel 11-12
+
+To configure the API Exception Handler on Laravel 11-12, add the following configuration to your `boostrap/app.php` file:
+```php
+use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
+
+->withExceptions(function (Exceptions $exceptions) {
+        // your other code here
+        $exceptions->render(function (Throwable $exception, $request) {
+            if ($request->is('api/*')) {
+                return app(ApiExceptionHandler::class)->renderApiException($exception);
+            }
+        });
+        // your other code here
+    })
+```
+
+#### Laravel 7-10
+
+To configure the API Exception Handler on Laravel 7-10, add the following configuration inside your render method of your `app/Exceptions/Handler.php` file:
+```php
+use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
+
+public function render($request, Throwable $exception)
+    {
+    // your other code here
+        if ($request->is('api/*')) {
+            return app(ApiExceptionHandler::class)->renderApiException($exception);
+        }
+    // your other code here
+    }
 ```
 
 ## 🔧 Configuration Options
@@ -184,41 +217,6 @@ public function store()
 - `$statusCode` (optional): HTTP error code (default: 400)
 - `$documentation` (optional): Error documentation link
 - `$debug` (optional): Additional debug information
-
-### API Exception Handler
-
-#### Laravel 11-12
-
-To configure the API Exception Handler on Laravel 11-12, add the following configuration to your `boostrap/app.php` file:
-```php
-use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
-
-->withExceptions(function (Exceptions $exceptions) {
-        // your other code here
-        $exceptions->render(function (Throwable $exception, $request) {
-            if ($request->is('api/*')) {
-                return app(ApiExceptionHandler::class)->renderApiException($exception);
-            }
-        });
-        // your other code here
-    })
-```
-
-#### Laravel 7-10
-
-To configure the API Exception Handler on Laravel 7-10, add the following configuration inside your render method of your `app/Exceptions/Handler.php` file:
-```php
-use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
-
-public function render($request, Throwable $exception)
-    {
-    // your other code here
-        if ($request->is('api/*')) {
-            return app(ApiExceptionHandler::class)->renderApiException($exception);
-        }
-    // your other code here
-    }
-```
 
 ## 🧪 Testing
 Run the test suite using the following command:
