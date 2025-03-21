@@ -41,7 +41,7 @@ A Laravel package to easily handle API responses and exceptions.
 
 - 🌟 Return clean, consistent API responses
 - 🛡️ Handle API exceptions with standardized error responses
-- 🚀 Easy integration with Laravel 10 and 11
+- 🚀 Easy integration with Laravel 7 to 12
 
 ---
 ## 🚀 Getting Started
