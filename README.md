@@ -22,8 +22,8 @@
 - 🚀 [Getting Started](#-getting-started)
     - ☑️ [Prerequisites](#-prerequisites)
     - ⚙ [Installation](#-installation)
-    - 🤖 [Usage](#🤖-usage)
-- 🧪 [Testing](#🧪-testing)
+    - 🤖 [Usage](#-usage)
+- 🧪 [Testing](#-testing)
 - 🔰 [Contributing](#-contributing)
 - 🎗 [License](#-license)
 
