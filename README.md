@@ -71,6 +71,8 @@ php artisan vendor:publish --tag="apiresponses-config"
 
 ### API Exception Handler
 
+*Note: if you use a different API route path than /api you should adjust the below if statement.*
+
 #### Laravel 11-12
 
 To configure the API Exception Handler on Laravel 11-12, add the following configuration to your `boostrap/app.php` file:
@@ -79,8 +81,8 @@ use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
 
 ->withExceptions(function (Exceptions $exceptions) {
         // your other code here
-        $exceptions->render(function (Throwable $exception, $request) {
-            if ($request->is('api/*')) {
+       $exceptions->render(function (Throwable $exception, $request) {
+            if ($request->expectsJson() || $request->is('api/*')) {
                 return app(ApiExceptionHandler::class)->renderApiException($exception);
             }
         });
@@ -97,12 +99,14 @@ use Harrisonratcliffe\LaravelApiResponses\ApiExceptionHandler;
 public function render($request, Throwable $exception)
     {
     // your other code here
-        if ($request->is('api/*')) {
+        if ($request->expectsJson() || $request->is('api/*')) {
             return app(ApiExceptionHandler::class)->renderApiException($exception);
         }
     // your other code here
     }
 ```
+
+Here's the modified README to reflect the new option for handling internal server error messages:
 
 ## 🔧 Configuration Options
 
@@ -121,7 +125,7 @@ The Laravel API Handler package provides a flexible configuration file that allo
 
 ### 📡 Default Success Response
 ```php
-'success_response' => 'API request processed successfully',
+'success_response' => 'API request processed successfully.',
 'success_status_code' => 200,
 ```
 - **Success Message**: Customizable default message for successful API requests
@@ -130,19 +134,28 @@ The Laravel API Handler package provides a flexible configuration file that allo
 
 ### 🚧 Default Error Messages
 ```php
-'http_not_found' => 'The resource or endpoint cannot be found',
-'unauthenticated' => 'You are not authenticated',
-'model_not_found' => 'Unable to locate the %s you requested',
-'unknown_error' => 'An unknown error occurred',
+'http_not_found' => 'The requested resource or endpoint could not be located.',
+'unauthenticated' => 'You must be logged in to access this resource. Please provide valid credentials.',
+'model_not_found' => 'The requested resource could not be found. This resource doesn\'t exist.',
+'unknown_error' => 'An unexpected error has occurred. Please try again later or contact support if the issue persists.',
 ```
 
 #### Error Message Breakdown
 - **`http_not_found`**: Used when a requested endpoint doesn't exist
 - **`unauthenticated`**: Triggered for unauthorized access attempts
 - **`model_not_found`**: Dynamic message for missing database records
-    - Uses a `%s` placeholder for the specific resource type
-    - Example: "Unable to locate the User you requested"
+    - Provides clarity on what was not found
 - **`unknown_error`**: Fallback message for unexpected errors
+
+### ⚠️ Internal Server Error Message
+```php
+'show_500_error_message' => true,
+```
+- **Purpose**: Controls whether the actual error message from a 500/internal server error is returned.
+- **Default**: `true` (actual error message will be shown)
+- **Behavior**:
+    - When `true`: The detailed error message is returned, which can aid in debugging.
+    - When `false`: The `unknown_error` response will be used instead, maintaining user-friendliness.
 
 ### 🛠️ Customization Tips
 - Modify the config file located at `config/api-responses.php`
