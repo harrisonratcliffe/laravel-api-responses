@@ -5,7 +5,7 @@ namespace Harrisonratcliffe\LaravelApiResponses;
 use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Support\ServiceProvider;
 
-class LaravelApiResponsesServiceProvider extends ServiceProvider
+class ApiResponsesServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

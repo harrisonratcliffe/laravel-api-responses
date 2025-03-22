@@ -17,15 +17,15 @@
 
 ## 🔗 Table of Contents
 
-- [📍 Overview](#-overview)
-- [👾 Features](#-features)
-- [🚀 Getting Started](#-getting-started)
-    - [☑️ Prerequisites](#-prerequisites)
-    - [⚙️ Installation](#-installation)
-    - [🤖 Usage](#🤖-usage)
-- [🧪 Testing](#🧪-testing)
-- [🔰 Contributing](#-contributing)
-- [🎗 License](#-license)
+- 📍 [Overview](#-overview)
+- 👾 [Features](#-features)
+- 🚀 [Getting Started](#-getting-started)
+    - ☑️ [Prerequisites](#-prerequisites)
+    - ⚙ [Installation](#-installation)
+    - 🤖 [Usage](#🤖-usage)
+- 🧪 [Testing](#🧪-testing)
+- 🔰 [Contributing](#-contributing)
+- 🎗 [License](#-license)
 
 [//]: # (- [🙌 Acknowledgments]&#40;#-acknowledgments&#41;)
 
@@ -156,12 +156,12 @@ The Laravel API Handler package provides a flexible configuration file that allo
 
 ```php
 // In your controller
-use Harrisonratcliffe\LaravelApiResponses\Facades\LaravelApiResponses;
+use Harrisonratcliffe\LaravelApiResponses\Facades\ApiResponses;
 
 public function index()
 {
     $data = User::all();
-    return LaravelApiResponses::success(
+    return ApiResponses::success(
         'Users retrieved successfully', 
         $data
     );
@@ -183,9 +183,11 @@ public function index()
 ### Error Responses
 
 ```php
+use Harrisonratcliffe\LaravelApiResponses\Facades\ApiResponses;
+
 public function store()
 {
-    return LaravelApiResponses::error(
+    return ApiResponses::error(
         'Resource creation failed', 
         422,
         'https://docs.yourapi.com/errors/resource-creation'

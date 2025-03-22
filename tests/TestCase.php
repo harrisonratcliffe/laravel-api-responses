@@ -2,7 +2,7 @@
 
 namespace Harrisonratcliffe\LaravelApiResponses\Tests;
 
-use Harrisonratcliffe\LaravelApiResponses\LaravelApiResponsesServiceProvider;
+use Harrisonratcliffe\LaravelApiResponses\ApiResponsesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -13,14 +13,14 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Harrisonratcliffe\\LaravelApiResponses\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Harrisonratcliffe\\ApiResponses\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            LaravelApiResponsesServiceProvider::class,
+            ApiResponsesServiceProvider::class,
         ];
     }
 

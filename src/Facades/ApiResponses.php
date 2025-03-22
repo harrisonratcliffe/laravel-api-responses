@@ -4,7 +4,7 @@ namespace Harrisonratcliffe\LaravelApiResponses\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class LaravelApiResponses extends Facade
+class ApiResponses extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
