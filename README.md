@@ -302,7 +302,8 @@ Contributions are welcome!
 
 ## 🎗 License
 
-This project is covered under the [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/) License. For more details, refer to the [LICENSE](https://github.com/harrisonratcliffe/laravel-api-responses/blob/main/LICENSE) file.
+This project is protected under the [MIT](https://choosealicense.com/licenses/mit) License. For more details, refer to
+the [LICENSE](https://github.com/letrixlabs/nodehut-cli/blob/main/LICENSE) file.
 
 [//]: # (---)
 
