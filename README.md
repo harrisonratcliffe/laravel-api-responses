@@ -260,9 +260,8 @@ vendor/bin/pest
 
 Contributions are welcome!
 
-- **💬 [Join the Discussions](https://github.com/harrisonratcliffe/laravel-api-responses/discussions)**: Share your insights, provide feedback, or ask questions.
 - **🐛 [Report Issues](https://github.com/harrisonratcliffe/laravel-api-responses/issues)**: Submit bugs found or log feature requests for the `laravel-api-responses` project.
-- **💡 [Submit Pull Requests](https://github.com/harrisonratcliffe/laravel-api-responses/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
+- **💡 [Submit Pull Requests](https://github.com/harrisonratcliffe/laravel-api-responses/pulls)**: Review open PRs, and submit your own PRs.
 
 <details closed>
 <summary>Contributing Guidelines</summary>
@@ -303,7 +302,7 @@ Contributions are welcome!
 
 ## 🎗 License
 
-This project is protected under the [MIT](https://choosealicense.com/licenses/mit) License. For more details, refer to the [LICENSE](https://github.com/harrisonratcliffe/laravel-api-responses/blob/main/LICENSE) file.
+This project is covered under the [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/) License. For more details, refer to the [LICENSE](https://github.com/harrisonratcliffe/laravel-api-responses/blob/main/LICENSE) file.
 
 [//]: # (---)
 
