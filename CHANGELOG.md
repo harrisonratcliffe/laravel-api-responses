@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1 - 2025-03-31
+
+**Full Changelog**: https://github.com/harrisonratcliffe/laravel-api-responses/compare/2.0.0...2.0.1
+
 ## 2.0.0 - 2025-03-22
 
 **Full Changelog**: https://github.com/harrisonratcliffe/laravel-api-responses/compare/v1.0.5...2.0.0
