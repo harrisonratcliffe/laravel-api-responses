@@ -66,7 +66,7 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = !empty($message) ? $message : config('api-responses.unauthenticated');
             $responseData['statusCode'] = 401;
         } elseif ($exception instanceof ValidationException) {
-            $responseData['message'] = !empty($message) ? $message : config('api-responses.validation_error');
+            $responseData['message'] = $message;
             $responseData['statusCode'] = 422;
         } else {
             $responseData['message'] = !empty($message)
