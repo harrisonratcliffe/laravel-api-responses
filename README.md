@@ -8,10 +8,9 @@
 	<img src="https://img.shields.io/github/languages/top/harrisonratcliffe/laravel-api-responses?style=default&color=0080ff" alt="repo-top-language">
 	<img src="https://img.shields.io/github/languages/count/harrisonratcliffe/laravel-api-responses?style=default&color=0080ff" alt="repo-language-count">
 </p>
-<p align="center"><!-- default option, no dependency badges. -->
+<p align="center">
 </p>
 <p align="center">
-	<!-- default option, no dependency badges. -->
 </p>
 <br>
 
@@ -201,9 +200,12 @@ use Harrisonratcliffe\LaravelApiResponses\Facades\ApiResponses;
 public function store()
 {
     return ApiResponses::error(
-        'Resource creation failed', 
-        422,
-        'https://docs.yourapi.com/errors/resource-creation'
+        'This virtual machine does not exist',
+        404,
+        [
+            'vm_id' => 12345
+        ],
+        'https://docs.yourapi.com/errors/some-error'
     );
 }
 ```
@@ -212,11 +214,11 @@ public function store()
 ```json
 {
     "status": "error",
-    "error": {
-        "code": 422,
-        "message": "Resource creation failed",
-        "documentation": "https://docs.yourapi.com/errors/resource-creation"
-    }
+    "message": "This virtual machine does not exist",
+    "details": {
+        "vm_id": 12345
+    },
+    "documentation": "https://docs.yourapi.com/errors/some-error"
 }
 ```
 
@@ -230,6 +232,7 @@ public function store()
 ### `errorResponse()`
 - `$message` (required): Error description
 - `$statusCode` (optional): HTTP error code (default: 400)
+- `$details` (optional) Error details
 - `$documentation` (optional): Error documentation link
 - `$debug` (optional): Additional debug information
 
