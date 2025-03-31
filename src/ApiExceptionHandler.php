@@ -47,38 +47,42 @@ class ApiExceptionHandler extends Exception
      * @return array<mixed> An array containing the status code and message.
      */
     private function prepareApiExceptionData(Throwable $exception): array
-    {
-        $responseData = [];
-        $message = $exception->getMessage();
+{
+    $responseData = [];
+    $message = $exception->getMessage();
 
-        if ($exception instanceof NotFoundHttpException) {
-            $responseData['message'] = !empty($message) ? $message : config('api-responses.http_not_found');
-            $responseData['statusCode'] = 404;
-        } elseif ($exception instanceof MethodNotAllowedHttpException) {
-            $responseData['message'] = !empty($message) ? $message : config('api-responses.method_not_allowed');
-            $responseData['statusCode'] = 405;
-        } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = !empty($message)
-                ? $message
-                : sprintf(config('api-responses.model_not_found'), $this->modelNotFoundMessage($exception));
-            $responseData['statusCode'] = 404;
-        } elseif ($exception instanceof AuthenticationException) {
-            $responseData['message'] = !empty($message) ? $message : config('api-responses.unauthenticated');
-            $responseData['statusCode'] = 401;
-        } elseif ($exception instanceof ValidationException) {
-            $responseData['message'] = $message;
-            $responseData['statusCode'] = 422;
-        } else {
-            $responseData['message'] = !empty($message)
-                ? $message
-                : (config('api-responses.show_500_error_message')
-                    ? $this->prepareExceptionMessage($exception)
-                    : config('api-responses.unknown_error'));
-            $responseData['statusCode'] = ($exception instanceof HttpExceptionInterface) ? $exception->getStatusCode() : 500;
-        }
-
-        return $responseData;
+    if ($exception instanceof NotFoundHttpException) {
+        $responseData['message'] = !empty($message) ? $message : config('api-responses.http_not_found');
+        $responseData['statusCode'] = 404;
+    } elseif ($exception instanceof MethodNotAllowedHttpException) {
+        $responseData['message'] = !empty($message) ? $message : config('api-responses.method_not_allowed');
+        $responseData['statusCode'] = 405;
+    } elseif ($exception instanceof ModelNotFoundException) {
+        $responseData['message'] = !empty($message) 
+            ? $message 
+            : sprintf(config('api-responses.model_not_found'), $this->modelNotFoundMessage($exception));
+        $responseData['statusCode'] = 404;
+    } elseif ($exception instanceof AuthenticationException) {
+        $responseData['message'] = !empty($message) ? $message : config('api-responses.unauthenticated');
+        $responseData['statusCode'] = 401;
+    } elseif ($exception instanceof ValidationException) {
+        $responseData['statusCode'] = 422;
+        $responseData['error'] = [
+            'code' => 422,
+            'message' => $message,
+            'errors' => $exception->errors(),
+        ];
+    } else {
+        $responseData['message'] = !empty($message) 
+            ? $message 
+            : (config('api-responses.show_500_error_message') 
+                ? $this->prepareExceptionMessage($exception) 
+                : config('api-responses.unknown_error'));
+        $responseData['statusCode'] = ($exception instanceof HttpExceptionInterface) ? $exception->getStatusCode() : 500;
     }
+
+    return $responseData;
+}
 
     /**
      * Extract detailed exception data if in debug mode.
