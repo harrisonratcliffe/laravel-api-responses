@@ -9,7 +9,7 @@ class ApiResponseService
     /**
      * Send a success response.
      */
-    public function successResponse(?string $message = null, mixed $data = null, ?int $statusCode = null): JsonResponse
+    public function success(?string $message = null, mixed $data = null, ?int $statusCode = null): JsonResponse
     {
         if ($message === null) {
             $message = config('api-responses.success_response');
@@ -19,11 +19,17 @@ class ApiResponseService
             $statusCode = config('api-responses.success_status_code');
         }
 
-        return response()->json([
+        $successResponse = [
             'status' => 'success',
             'message' => $message,
-            'data' => $data,
-        ], $statusCode);
+        ];
+
+        if ($data !== null) {
+            $successResponse['data'] = $data;
+        }
+
+
+        return response()->json($successResponse, $statusCode);
     }
 
     /**
@@ -31,22 +37,23 @@ class ApiResponseService
      *
      * @param  array<mixed>|null  $debug
      */
-    public function errorResponse(string $message, int $statusCode = 400, ?string $documentation = null, ?array $debug = null): JsonResponse
+    public function error(string $message, int $statusCode = 400, mixed $details = null, ?string $documentation = null, ?array $debug = null): JsonResponse
     {
         $errorResponse = [
             'status' => 'error',
-            'error' => [
-                'code' => $statusCode,
-                'message' => $message,
-            ],
+            'message' => $message,
         ];
 
+        if ($details !== null) {
+            $errorResponse['details'] = $details;
+        }
+
         if ($documentation !== null) {
-            $errorResponse['error']['documentation'] = $documentation;
+            $errorResponse['documentation'] = $documentation;
         }
 
         if ($debug !== null) {
-            $errorResponse['error']['debug'] = $debug;
+            $errorResponse['debug'] = $debug;
         }
 
         return response()->json($errorResponse, $statusCode);
