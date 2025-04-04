@@ -7,7 +7,7 @@ return [
      * This should only be used in development as it may
      * leak sensitive information.
      */
-    'debug_mode' => config('app.debug', false),
+    'debug_mode' => env('APP_DEBUG', false),
 
     /**
      * 500/Internal Error Response Message
