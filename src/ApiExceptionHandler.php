@@ -6,6 +6,7 @@ use Exception;
 use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -58,24 +59,29 @@ class ApiExceptionHandler extends Exception
         $message = $exception->getMessage();
 
         if ($exception instanceof NotFoundHttpException) {
-            $responseData['message'] = ! empty($message) ? $message : config('api-responses.http_not_found');
+            $responseData['message'] = !empty($message) ? $message : config('api-responses.http_not_found');
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof MethodNotAllowedHttpException) {
-            $responseData['message'] = ! empty($message) ? $message : config('api-responses.method_not_allowed');
+            $responseData['message'] = !empty($message) ? $message : config('api-responses.method_not_allowed');
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = ! empty($message)
+            $responseData['message'] = !empty($message)
                 ? $message
                 : sprintf(config('api-responses.model_not_found'), $this->modelNotFoundMessage($exception));
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof AuthenticationException) {
-            $responseData['message'] = ! empty($message) ? $message : config('api-responses.unauthenticated');
+            $responseData['message'] = !empty($message) ? $message : config('api-responses.unauthenticated');
             $responseData['statusCode'] = 401;
         } elseif ($exception instanceof ValidationException) {
             $responseData['message'] = $message ?: config('api-responses.validation_error');
             $responseData['statusCode'] = 422;
             $responseData['details'] = $exception->errors();
-        } else {
+        }
+        elseif ($exception->getResponse()->getStatusCode() === 429) {
+            $responseData['message'] = !empty($message) ? $message : config('api-responses.rate_limit');
+            $responseData['statusCode'] = 429;
+        }
+        else {
             if (config('api-responses.show_500_error_message') && !empty($message)) {
                 $responseData['message'] = $message;
             } else {
@@ -84,7 +90,6 @@ class ApiExceptionHandler extends Exception
 
             $responseData['statusCode'] = 500;
 
-            // If debug mode is enabled, add debug data to response
             if (config('api-responses.debug_mode')) {
                 $responseData['debug'] = $this->extractExceptionData($exception);
             }
@@ -92,6 +97,7 @@ class ApiExceptionHandler extends Exception
 
         return $responseData;
     }
+
 
     /**
      * Extract detailed exception data if in debug mode.
