@@ -7,6 +7,7 @@ use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -79,8 +80,7 @@ class ApiExceptionHandler extends Exception
         } elseif ($exception instanceof ThrottleRequestsException) {
             $responseData['message'] = config('api-responses.rate_limit');
             $responseData['statusCode'] = 429;
-        }
-        else {
+        } else {
             if (config('api-responses.show_500_error_message') && !empty($message)) {
                 $responseData['message'] = $message;
             } else {
