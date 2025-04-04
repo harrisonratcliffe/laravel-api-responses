@@ -76,9 +76,8 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = $message ?: config('api-responses.validation_error');
             $responseData['statusCode'] = 422;
             $responseData['details'] = $exception->errors();
-        }
-        elseif ($exception->getResponse()->getStatusCode() === 429) {
-            $responseData['message'] = !empty($message) ? $message : config('api-responses.rate_limit');
+        } elseif ($exception instanceof ThrottleRequestsException) {
+            $responseData['message'] = config('api-responses.rate_limit');
             $responseData['statusCode'] = 429;
         }
         else {
