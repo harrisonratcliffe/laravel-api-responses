@@ -16,7 +16,6 @@ return [
      * to a code issue, you can choose whether you want the actual error to be
      * returned or not. If disabled, the unknown_error response will be used.
      */
-
     'show_500_error_message' => true,
 
     /**

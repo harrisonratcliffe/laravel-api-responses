@@ -38,7 +38,6 @@ class ApiResponseService
         return response()->json($successResponse, $statusCode);
     }
 
-
     /**
      * Send an error response.
      *
@@ -69,5 +68,4 @@ class ApiResponseService
 
         return response()->json($errorResponse, $statusCode);
     }
-
 }
