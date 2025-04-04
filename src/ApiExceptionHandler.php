@@ -81,7 +81,13 @@ class ApiExceptionHandler extends Exception
             } else {
                 $responseData['message'] = config('api-responses.unknown_error');
             }
-            $responseData['statusCode'] = ($exception instanceof HttpExceptionInterface) ? $exception->getStatusCode() : 500;
+
+            $responseData['statusCode'] = 500;
+
+            // If debug mode is enabled, add debug data to response
+            if (config('api-responses.debug_mode')) {
+                $responseData['debug'] = $this->extractExceptionData($exception);
+            }
         }
 
         return $responseData;
