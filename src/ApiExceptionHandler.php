@@ -76,11 +76,11 @@ class ApiExceptionHandler extends Exception
             $responseData['statusCode'] = 422;
             $responseData['details'] = $exception->errors();
         } else {
-            $responseData['message'] = ! empty($message)
-                ? $message
-                : (config('api-responses.show_500_error_message')
-                    ? $this->prepareExceptionMessage($exception)
-                    : config('api-responses.unknown_error'));
+            if (config('api-responses.show_500_error_message') && !empty($message)) {
+                $responseData['message'] = $message;
+            } else {
+                $responseData['message'] = config('api-responses.unknown_error');
+            }
             $responseData['statusCode'] = ($exception instanceof HttpExceptionInterface) ? $exception->getStatusCode() : 500;
         }
 
