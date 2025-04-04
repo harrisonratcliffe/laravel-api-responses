@@ -19,18 +19,25 @@ class ApiResponseService
             $statusCode = config('api-responses.success_status_code');
         }
 
+        // Start the success response array
         $successResponse = [
             'status' => 'success',
             'message' => $message,
         ];
 
+        // Create an array to merge
+        $additionalData = [];
+
         if ($data !== null) {
-            $successResponse['data'] = $data;
+            $additionalData['data'] = $data;
         }
 
+        // Merge the arrays
+        $successResponse = array_merge($successResponse, $additionalData);
 
         return response()->json($successResponse, $statusCode);
     }
+
 
     /**
      * Send an error response.
@@ -44,18 +51,23 @@ class ApiResponseService
             'message' => $message,
         ];
 
+        $additionalData = [];
+
         if ($details !== null) {
-            $errorResponse['details'] = $details;
+            $additionalData['details'] = $details;
         }
 
         if ($documentation !== null) {
-            $errorResponse['documentation'] = $documentation;
+            $additionalData['documentation'] = $documentation;
         }
 
         if ($debug !== null) {
-            $errorResponse['debug'] = $debug;
+            $additionalData['debug'] = $debug;
         }
+
+        $errorResponse = array_merge($errorResponse, $additionalData);
 
         return response()->json($errorResponse, $statusCode);
     }
+
 }
