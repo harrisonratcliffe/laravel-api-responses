@@ -113,10 +113,10 @@ The Laravel API Handler package provides a flexible configuration file that allo
 
 ### 🐞 Debug Mode
 ```php
-'debug_mode' => config('app.debug', false),
+'debug_mode' => end('APP_ENV', false),
 ```
 - **Purpose**: Controls whether detailed error information is exposed
-- **Default**: Inherits from Laravel's `app.debug` configuration
+- **Default**: Inherits from Laravel's `APP_ENV` environment variable
 - **Security Warning**: 🚨 **Only enable in development environments**
 - **Behavior**:
     - When `true`: Potentially exposes sensitive error details
