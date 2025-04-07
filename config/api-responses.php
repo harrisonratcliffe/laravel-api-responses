@@ -28,6 +28,9 @@ return [
 
     'http_not_found' => 'The requested resource or endpoint could not be located.',
     'unauthenticated' => 'You must be logged in to access this resource. Please provide valid credentials.',
+    'not_authorized' => 'You are not authorized to access this resource.',
+    'validation' => 'There has been one or more validation error with your request.',
     'model_not_found' => 'The requested resource could not be found. for doesn\'t exist.',
+    'rate_limit' => 'You have exceeded the API request limit. Please try again later.',
     'unknown_error' => 'An unexpected error has occurred. Please try again later or contact support if the issue persists.',
 ];

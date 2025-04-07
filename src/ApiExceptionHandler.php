@@ -60,21 +60,19 @@ class ApiExceptionHandler extends Exception
         $message = $exception->getMessage();
 
         if ($exception instanceof NotFoundHttpException) {
-            $responseData['message'] = !empty($message) ? $message : config('api-responses.http_not_found');
+            $responseData['message'] = config('api-responses.http_not_found');
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof MethodNotAllowedHttpException) {
-            $responseData['message'] = !empty($message) ? $message : config('api-responses.method_not_allowed');
+            $responseData['message'] = config('api-responses.method_not_allowed');
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = !empty($message)
-                ? $message
-                : sprintf(config('api-responses.model_not_found'), $this->modelNotFoundMessage($exception));
+            $responseData['message'] = config('api-responses.model_not_found');
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof AuthenticationException) {
-            $responseData['message'] = !empty($message) ? $message : config('api-responses.unauthenticated');
+            $responseData['message'] = config('api-responses.unauthenticated');
             $responseData['statusCode'] = 401;
         } elseif ($exception instanceof ValidationException) {
-            $responseData['message'] = $message ?: config('api-responses.validation_error');
+            $responseData['message'] = config('api-responses.validation_error');
             $responseData['statusCode'] = 422;
             $responseData['details'] = $exception->errors();
         } elseif ($exception instanceof ThrottleRequestsException) {
@@ -126,22 +124,5 @@ class ApiExceptionHandler extends Exception
     private function prepareExceptionMessage(Throwable $exception): string
     {
         return $exception->getMessage() ?: config('api-responses.unknown_error');
-    }
-
-    /**
-     * Generate a model not found message based on the exception.
-     *
-     * @param  ModelNotFoundException  $exception  The model not found exception.
-     * @return string A message indicating which resource was not found.
-     */
-    private function modelNotFoundMessage(ModelNotFoundException $exception): string
-    {
-        $modelClass = $exception->getModel();
-
-        if ($modelClass !== null) {
-            return Str::lower(ltrim(preg_replace('/[A-Z]/', ' $0', class_basename($modelClass))));
-        }
-
-        return 'resource';
     }
 }
