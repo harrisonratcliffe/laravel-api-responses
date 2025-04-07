@@ -4,6 +4,7 @@ namespace Harrisonratcliffe\LaravelApiResponses;
 
 use Exception;
 use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -12,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -66,8 +68,11 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = config('api-responses.method_not_allowed');
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = config('api-responses.model_not_found');
+            $responseData['message'] = config('api-responses.http_not_found');
             $responseData['statusCode'] = 404;
+        } elseif ($exception instanceof AuthorizationException || $exception instanceof AccessDeniedHttpException) {
+            $responseData['message'] = config('api-responses.not_authorized');
+            $responseData['statusCode'] = 403;
         } elseif ($exception instanceof AuthenticationException) {
             $responseData['message'] = config('api-responses.unauthenticated');
             $responseData['statusCode'] = 401;
