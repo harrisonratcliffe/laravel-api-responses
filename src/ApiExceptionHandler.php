@@ -77,7 +77,7 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = config('api-responses.unauthenticated');
             $responseData['statusCode'] = 401;
         } elseif ($exception instanceof ValidationException) {
-            $responseData['message'] = config('api-responses.validation_error');
+            $responseData['message'] = config('api-responses.validation');
             $responseData['statusCode'] = 422;
             $responseData['details'] = $exception->errors();
         } elseif ($exception instanceof ThrottleRequestsException) {
