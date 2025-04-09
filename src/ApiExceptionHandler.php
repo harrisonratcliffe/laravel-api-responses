@@ -65,7 +65,7 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = config('api-responses.http_not_found');
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof MethodNotAllowedHttpException) {
-            $responseData['message'] = config('api-responses.method_not_allowed');
+            $responseData['message'] = $message;
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
             $responseData['message'] = config('api-responses.http_not_found');
