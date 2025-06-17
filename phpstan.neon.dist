@@ -8,5 +8,6 @@ parameters:
         - tests
     stubFiles:
         - tests/Pest.php
-    bootstrapFiles:
-        - tests/bootstrap.php
+    traits:
+        Harrisonratcliffe\LaravelApiResponses\Tests\UsesApiResponses:
+            - Orchestra\Testbench\TestCase 

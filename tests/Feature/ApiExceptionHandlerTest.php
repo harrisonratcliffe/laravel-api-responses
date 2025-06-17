@@ -14,7 +14,7 @@ it('renders a not found http exception', function () {
     $response = $handler->renderApiException($exception);
 
     expect($response->getStatusCode())->toBe(404);
-    expect($response->getData()->error->message)->toBe('Test Not Found');
+    expect($response->getData()->message)->toBe(config('api-responses.http_not_found'));
 });
 
 it('renders an authentication exception', function () {
@@ -25,5 +25,5 @@ it('renders an authentication exception', function () {
     $response = $handler->renderApiException($exception);
 
     expect($response->getStatusCode())->toBe(401);
-    expect($response->getData()->error->message)->toBe(config('laravel-api-handler.unauthenticated'));
+    expect($response->getData()->message)->toBe(config('api-responses.unauthenticated'));
 });

@@ -8,64 +8,61 @@ class ApiResponseService
 {
     /**
      * Send a success response.
+     *
+     * @param  array<string, mixed>|null  $data
      */
-    public function success(?string $message = null, mixed $data = null, ?int $statusCode = null): JsonResponse
+    public function success(?string $message = null, array|null $data = null, ?int $statusCode = null): JsonResponse
     {
-        if ($message === null) {
-            $message = config('api-responses.success_response');
-        }
+        $message = $message ?? config('api-responses.success_response');
+        $statusCode = $statusCode ?? config('api-responses.success_status_code');
 
-        if ($statusCode === null) {
-            $statusCode = config('api-responses.success_status_code');
-        }
-
-        // Start the success response array
-        $successResponse = [
+        $responsePayload = [
             'status' => 'success',
             'message' => $message,
         ];
 
-        // Create an array to merge
-        $additionalData = [];
-
         if ($data !== null) {
-            $additionalData['data'] = $data;
+            $responsePayload['data'] = $data;
         }
 
-        // Merge the arrays
-        $successResponse = array_merge($successResponse, $additionalData);
-
-        return response()->json($successResponse, $statusCode);
+        return $this->jsonResponse($responsePayload, $statusCode);
     }
 
     /**
      * Send an error response.
      *
-     * @param  array<mixed>|null  $debug
+     * @param  array<string, mixed>|null  $details
+     * @param  array<string, mixed>|null  $debug
      */
-    public function error(string $message, int $statusCode = 400, mixed $details = null, ?string $documentation = null, ?array $debug = null): JsonResponse
+    public function error(string $message, int $statusCode = 400, array|null $details = null, ?string $documentation = null, array|null $debug = null): JsonResponse
     {
-        $errorResponse = [
+        $responsePayload = [
             'status' => 'error',
             'message' => $message,
         ];
 
-        $additionalData = [];
-
         if ($details !== null) {
-            $additionalData['details'] = $details;
+            $responsePayload['details'] = $details;
         }
 
         if ($documentation !== null) {
-            $additionalData['documentation'] = $documentation;
+            $responsePayload['documentation'] = $documentation;
         }
 
         if ($debug !== null) {
-            $additionalData['debug'] = $debug;
+            $responsePayload['debug'] = $debug;
         }
 
-        $errorResponse = array_merge($errorResponse, $additionalData);
+        return $this->jsonResponse($responsePayload, $statusCode);
+    }
 
-        return response()->json($errorResponse, $statusCode);
+    /**
+     * Create a new JSON response.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    protected function jsonResponse(array $data, int $statusCode): JsonResponse
+    {
+        return response()->json($data, $statusCode);
     }
 }

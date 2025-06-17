@@ -11,7 +11,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -19,13 +18,12 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-class ApiExceptionHandler extends Exception
+class ApiExceptionHandler
 {
     protected ApiResponseService $apiResponseService;
 
     public function __construct(ApiResponseService $apiResponseService)
     {
-        parent::__construct();
         $this->apiResponseService = $apiResponseService;
     }
 
@@ -44,7 +42,7 @@ class ApiExceptionHandler extends Exception
         return $this->apiResponseService->error(
             $responseData['message'],
             $responseData['statusCode'],
-            isset($responseData['details']) ? $responseData['details'] : null,
+            $responseData['details'] ?? null,
             null,
             $debugData
         );
@@ -54,52 +52,73 @@ class ApiExceptionHandler extends Exception
      * Prepare the response data for a given exception.
      *
      * @param  Throwable  $exception  The exception to prepare data for.
-     * @return array<mixed> An array containing the status code and message.
+     * @return array<mixed> An array containing the status code, message, and optional details.
      */
     private function prepareApiExceptionData(Throwable $exception): array
     {
-        $responseData = [];
         $message = $exception->getMessage();
+        $statusCode = 500;
+        $details = null;
 
-        if ($exception instanceof NotFoundHttpException) {
-            $responseData['message'] = config('api-responses.http_not_found');
-            $responseData['statusCode'] = 404;
-        } elseif ($exception instanceof MethodNotAllowedHttpException) {
-            $responseData['message'] = $message;
-            $responseData['statusCode'] = 405;
-        } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = config('api-responses.http_not_found');
-            $responseData['statusCode'] = 404;
-        } elseif ($exception instanceof AuthorizationException || $exception instanceof AccessDeniedHttpException) {
-            $responseData['message'] = config('api-responses.not_authorized');
-            $responseData['statusCode'] = 403;
-        } elseif ($exception instanceof AuthenticationException) {
-            $responseData['message'] = config('api-responses.unauthenticated');
-            $responseData['statusCode'] = 401;
-        } elseif ($exception instanceof ValidationException) {
-            $responseData['message'] = config('api-responses.validation');
-            $responseData['statusCode'] = 422;
-            $responseData['details'] = $exception->errors();
-        } elseif ($exception instanceof ThrottleRequestsException) {
-            $responseData['message'] = config('api-responses.rate_limit');
-            $responseData['statusCode'] = 429;
-        } else {
-            if (config('api-responses.show_500_error_message') && !empty($message)) {
-                $responseData['message'] = $message;
-            } else {
-                $responseData['message'] = config('api-responses.unknown_error');
-            }
+        switch (true) {
+            case $exception instanceof NotFoundHttpException:
+            case $exception instanceof ModelNotFoundException:
+                $message = config('api-responses.http_not_found');
+                $statusCode = 404;
+                break;
+            case $exception instanceof MethodNotAllowedHttpException:
+                $statusCode = 405;
+                break;
+            case $exception instanceof AuthorizationException:
+            case $exception instanceof AccessDeniedHttpException:
+                $message = config('api-responses.not_authorized');
+                $statusCode = 403;
+                break;
+            case $exception instanceof AuthenticationException:
+                $message = config('api-responses.unauthenticated');
+                $statusCode = 401;
+                break;
+            case $exception instanceof ValidationException:
+                $message = config('api-responses.validation');
+                $statusCode = 422;
+                $details = $exception->errors();
+                break;
+            case $exception instanceof ThrottleRequestsException:
+                $message = config('api-responses.rate_limit');
+                $statusCode = 429;
+                break;
+            case $exception instanceof HttpResponseException:
+                // This exception typically means a response has already been prepared.
+                // If this handler is explicitly called for it, we'll let it fall through to default
+                // or handle as a generic HTTP exception if it implements HttpExceptionInterface.
+                $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
+                break;
+            default:
+                if (config('api-responses.show_500_error_message') && !empty($message)) {
+                    // Use the exception's message if configured and not empty
+                } else {
+                    $message = config('api-responses.unknown_error');
+                }
+                $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
+                break;
+        }
 
-            $responseData['statusCode'] = 500;
+        // Ensure message is set if it was empty and not specifically handled above
+        if (empty($message)) {
+            $message = $exception->getMessage() ?: config('api-responses.unknown_error');
+        }
 
-            if (config('api-responses.debug_mode')) {
-                $responseData['debug'] = $this->extractExceptionData($exception);
-            }
+        $responseData = [
+            'message' => $message,
+            'statusCode' => $statusCode,
+        ];
+
+        if ($details) {
+            $responseData['details'] = $details;
         }
 
         return $responseData;
     }
-
 
     /**
      * Extract detailed exception data if in debug mode.
@@ -118,16 +137,5 @@ class ApiExceptionHandler extends Exception
                 return Arr::except($trace, ['args']);
             })->all(),
         ];
-    }
-
-    /**
-     * Prepare a user-friendly error message from the exception.
-     *
-     * @param  Throwable  $exception  The exception to extract the message from.
-     * @return string A user-friendly error message.
-     */
-    private function prepareExceptionMessage(Throwable $exception): string
-    {
-        return $exception->getMessage() ?: config('api-responses.unknown_error');
     }
 }

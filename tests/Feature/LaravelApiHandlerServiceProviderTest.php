@@ -5,7 +5,7 @@ use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Support\Facades\App;
 
 it('registers the api-response singleton', function () {
-    $this->app->register(ApiResponsesServiceProvider::class);
+    app()->register(ApiResponsesServiceProvider::class);
 
-    $this->assertInstanceOf(ApiResponseService::class, App::make('api-response'));
+    \PHPUnit\Framework\Assert::assertInstanceOf(ApiResponseService::class, App::make('api-response'));
 });

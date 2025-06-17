@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 it('returns a success response', function () {
     $service = new ApiResponseService;
     /** @var JsonResponse $response */
-    $response = $service->successResponse('Operation successful', ['key' => 'value']);
+    $response = $service->success('Operation successful', ['key' => 'value']);
 
     expect($response->getStatusCode())->toBe(200);
     expect($response->getData()->status)->toBe('success');
@@ -17,9 +17,9 @@ it('returns a success response', function () {
 it('returns an error response', function () {
     $service = new ApiResponseService;
     /** @var JsonResponse $response */
-    $response = $service->errorResponse('An error occurred', 400);
+    $response = $service->error('An error occurred', 400);
 
     expect($response->getStatusCode())->toBe(400);
     expect($response->getData()->status)->toBe('error');
-    expect($response->getData()->error->message)->toBe('An error occurred');
+    expect($response->getData()->message)->toBe('An error occurred');
 });
