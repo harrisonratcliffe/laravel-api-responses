@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.0.1 - 2025-06-17
+
+### What's Changed
+
+* build(deps): bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot in https://github.com/harrisonratcliffe/laravel-api-responses/pull/9
+* tests by @harrisonratcliffe in https://github.com/harrisonratcliffe/laravel-api-responses/pull/11
+
+**Full Changelog**: https://github.com/harrisonratcliffe/laravel-api-responses/compare/v3.0.0...3.0.1
+
 ## v3.0.0 - 2025-06-17
 
 ### What's Changed
