@@ -62,26 +62,26 @@ class ApiExceptionHandler extends Exception
         $message = $exception->getMessage();
 
         if ($exception instanceof NotFoundHttpException) {
-            $responseData['message'] = config('api-responses.always_use_default_responses') ? config('api-responses.http_not_found') : $message;
+            $responseData['message'] = config('api-responses.http_not_found');
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof MethodNotAllowedHttpException) {
-            $responseData['message'] = config('api-responses.always_use_default_responses') ? config('api-responses.method_not_allowed') : $message;
+            $responseData['message'] = $message;
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = config('api-responses.always_use_default_responses') ? config('api-responses.http_not_found') : $message;
+            $responseData['message'] = config('api-responses.http_not_found');
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof AuthorizationException || $exception instanceof AccessDeniedHttpException) {
-            $responseData['message'] = config('api-responses.always_use_default_responses') ? config('api-responses.not_authorized') : $message;
+            $responseData['message'] = config('api-responses.not_authorized');
             $responseData['statusCode'] = 403;
         } elseif ($exception instanceof AuthenticationException) {
-            $responseData['message'] = config('api-responses.always_use_default_responses') ? config('api-responses.unauthenticated') : $message;
+            $responseData['message'] = config('api-responses.unauthenticated');
             $responseData['statusCode'] = 401;
         } elseif ($exception instanceof ValidationException) {
-            $responseData['message'] = config('api-responses.always_use_default_responses') ? config('api-responses.validation') : $message;
+            $responseData['message'] = config('api-responses.validation');
             $responseData['statusCode'] = 422;
             $responseData['details'] = $exception->errors();
         } elseif ($exception instanceof ThrottleRequestsException) {
-            $responseData['message'] = config('api-responses.always_use_default_responses') ? config('api-responses.rate_limit') : $message;
+            $responseData['message'] = config('api-responses.rate_limit');
             $responseData['statusCode'] = 429;
         } else {
             if (config('api-responses.show_500_error_message') && !empty($message)) {

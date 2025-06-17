@@ -134,24 +134,17 @@ The Laravel API Handler package provides a flexible configuration file that allo
 ### 🚧 Default Error Messages
 ```php
 'http_not_found' => 'The requested resource or endpoint could not be located.',
-'method_not_allowed' => 'The used method is not allowed for this resource or endpoint.',
 'unauthenticated' => 'You must be logged in to access this resource. Please provide valid credentials.',
-'not_authorized' => 'You are not authorized to access this resource.',
-'validation' => 'There has been one or more validation error with your request.',
-'model_not_found' => 'The requested resource could not be found. for doesn\'t exist.',
-'rate_limit' => 'You have exceeded the API request limit. Please try again later.',
+'model_not_found' => 'The requested resource could not be found. This resource doesn\'t exist.',
 'unknown_error' => 'An unexpected error has occurred. Please try again later or contact support if the issue persists.',
 ```
 
 #### Error Message Breakdown
-- **http_not_found** — Returned when the requested resource or endpoint doesn’t exist.
-- **method_not_allowed** — Indicates that the HTTP method used ( e.g., POST, GET, PUT ) isn’t permitted for this resource or endpoint.
-- **unauthenticated** — Triggered when the request lacks valid authentication credentials.
-- **not_authorized** — The user is authenticated but doesn’t have permission to access this resource.
-- **validation** — One or more validation errors were detected in the request payload or parameters.
-- **model_not_found** — A specific database record couldn’t be located (include the model/ID in the message for clarity).
-- **rate_limit** — The client has exceeded the allowed number of API requests and must wait before retrying.
-- **unknown_error** — Fallback for any unexpected errors not covered by the codes above.
+- **`http_not_found`**: Used when a requested endpoint doesn't exist
+- **`unauthenticated`**: Triggered for unauthorized access attempts
+- **`model_not_found`**: Dynamic message for missing database records
+    - Provides clarity on what was not found
+- **`unknown_error`**: Fallback message for unexpected errors
 
 ### ⚠️ Internal Server Error Message
 ```php
@@ -159,30 +152,9 @@ The Laravel API Handler package provides a flexible configuration file that allo
 ```
 - **Purpose**: Controls whether the actual error message from a 500/internal server error is returned.
 - **Default**: `true` (actual error message will be shown)
-- **Security Warning**: 🚨 **May leak sensitive information to the user**
 - **Behavior**:
     - When `true`: The detailed error message is returned, which can aid in debugging.
     - When `false`: The `unknown_error` response will be used instead, maintaining user-friendliness.
-
-### Always Use Default Responses
-```php
-'always_use_default_responses' => false,
-```
-- **Purpose**: Controls whether the actual error message from a 500/internal server error is returned.
-- **Default**: `true` (actual error message will be shown)
-**Security Warning**: 🚨 **May leak sensitive information to the user**
-- **Behavior**:
-    - When `true`: The detailed error message is returned, which can aid in debugging.
-    - When `false`: The `unknown_error` response will be used instead, maintaining user-friendliness.
-
-- **Purpose**: Forces the package’s predefined messages to be returned for core HTTP errors (e.g. 404, 422) even if you supply your own text with abort() or by throwing an exception.
-- **Default**: false (your custom message will be used unless you enable this flag).
-- **Behavior**:
-  When `true`: Calls like `abort(404, 'Not Found')` ignore the custom text and respond with the built‑in http_not_found message. 
-  When `false`: The message you pass— or Laravel’s default— is returned unchanged.
-
-**Heads‑up**
-This flag never affects 500 Internal Server Errors. Those are handled exclusively by show_500_error_message below.
 
 ### 🛠️ Customization Tips
 - Modify the config file located at `config/api-responses.php`

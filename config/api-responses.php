@@ -19,17 +19,6 @@ return [
     'show_500_error_message' => true,
 
     /**
-     * Always Use Default Responses
-     *
-     * If enabled, the default responses will always be used in API responses. For
-     * example, if you did abort(404, "Not Found") in your code, the default http_not_found
-     * message would be used instead.
-     *
-     * 500 errors are excluded from this config based on the show_500_error_message config.
-     */
-    'always_use_default_responses' => false,
-
-    /**
      * Default Response Options
      *
      * The default responses used in API responses.
@@ -38,7 +27,6 @@ return [
     'success_status_code' => 200,
 
     'http_not_found' => 'The requested resource or endpoint could not be located.',
-    'method_not_allowed' => 'The used method is not allowed for this resource or endpoint.',
     'unauthenticated' => 'You must be logged in to access this resource. Please provide valid credentials.',
     'not_authorized' => 'You are not authorized to access this resource.',
     'validation' => 'There has been one or more validation error with your request.',
