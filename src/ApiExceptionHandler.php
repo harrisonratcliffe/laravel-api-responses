@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Harrisonratcliffe\LaravelApiResponses;
 
 use Exception;
@@ -44,7 +46,7 @@ class ApiExceptionHandler extends Exception
         return $this->apiResponseService->error(
             $responseData['message'],
             $responseData['statusCode'],
-            isset($responseData['details']) ? $responseData['details'] : null,
+            $responseData['details'] ?? null,
             null,
             $debugData
         );
@@ -58,6 +60,16 @@ class ApiExceptionHandler extends Exception
      */
     private function prepareApiExceptionData(Throwable $exception): array
     {
+        // Check for custom exception mapping
+        $custom = $this->getCustomExceptionMapping($exception);
+        if ($custom !== null) {
+            return [
+                'message' => $custom['message'],
+                'statusCode' => $custom['status'],
+                'details' => $custom['details'] ?? null,
+            ];
+        }
+
         $responseData = [];
         $message = $exception->getMessage();
 
@@ -68,7 +80,7 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = $message;
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = config('api-responses.http_not_found');
+            $responseData['message'] = config('api-responses.model_not_found');
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof AuthorizationException || $exception instanceof AccessDeniedHttpException) {
             $responseData['message'] = config('api-responses.not_authorized');
@@ -100,6 +112,22 @@ class ApiExceptionHandler extends Exception
         return $responseData;
     }
 
+    /**
+     * Check for custom exception mapping in config.
+     *
+     * @param Throwable $exception
+     * @return array<string, mixed>|null
+     */
+    private function getCustomExceptionMapping(Throwable $exception): ?array
+    {
+        $customExceptions = config('api-responses.custom_exceptions', []);
+        foreach ($customExceptions as $class => $data) {
+            if ($exception instanceof $class) {
+                return $data;
+            }
+        }
+        return null;
+    }
 
     /**
      * Extract detailed exception data if in debug mode.

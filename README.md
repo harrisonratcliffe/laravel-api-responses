@@ -109,52 +109,35 @@ Here's the modified README to reflect the new option for handling internal serve
 
 ## 🔧 Configuration Options
 
-The Laravel API Handler package provides a flexible configuration file that allows you to customize default response messages and behaviors. Let's break down each configuration option:
+The Laravel API Handler package provides a flexible configuration file that allows you to customize default response messages and behaviors. Below is a table of all available configuration options:
 
-### 🐞 Debug Mode
+| Key                  | Default Value                                                                 | Description                                                                                       |
+|----------------------|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| debug_mode           | env('APP_DEBUG', false)                                                       | Controls whether detailed error information is exposed. Only enable in development environments.   |
+| show_500_error_message | true                                                                        | Show actual error message for 500 errors. If false, uses `unknown_error` message.                 |
+| success_response     | 'API request processed successfully.'                                         | Default message for successful API requests.                                                      |
+| success_status_code  | 200                                                                           | Default HTTP status code for success responses.                                                   |
+| http_not_found       | 'The requested resource or endpoint could not be located.'                    | Message for 404 Not Found errors.                                                                 |
+| unauthenticated      | 'You must be logged in to access this resource. Please provide valid credentials.' | Message for 401 Unauthenticated errors.                                                      |
+| not_authorized       | 'You are not authorized to access this resource.'                             | Message for 403 Forbidden errors.                                                                 |
+| validation           | 'There has been one or more validation error with your request.'              | Message for 422 Validation errors.                                                                |
+| model_not_found      | 'The requested resource could not be found. This resource doesn\'t exist.'    | Message for missing database records.                                                             |
+| rate_limit           | 'You have exceeded the API request limit. Please try again later.'            | Message for 429 Too Many Requests errors.                                                         |
+| unknown_error        | 'An unexpected error has occurred. Please try again later or contact support if the issue persists.' | Fallback message for unexpected errors. |
+| custom_exceptions    | []                                                                            | Map your own exception classes to custom messages and status codes.                                |
+
+### Example: Custom Exception Mapping
+
+You can map your own exception classes to custom messages and status codes in `config/api-responses.php`:
+
 ```php
-'debug_mode' => end('APP_ENV', false),
+'custom_exceptions' => [
+    App\Exceptions\CustomException::class => [
+        'message' => 'A custom error occurred.',
+        'status' => 422,
+    ],
+],
 ```
-- **Purpose**: Controls whether detailed error information is exposed
-- **Default**: Inherits from Laravel's `APP_ENV` environment variable
-- **Security Warning**: 🚨 **Only enable in development environments**
-- **Behavior**:
-    - When `true`: Potentially exposes sensitive error details
-    - When `false`: Provides generic, safe error messages
-
-### 📡 Default Success Response
-```php
-'success_response' => 'API request processed successfully.',
-'success_status_code' => 200,
-```
-- **Success Message**: Customizable default message for successful API requests
-- **Status Code**: Standard HTTP 200 OK response
-- **Customization**: Easily modify the default success message to match your application's tone
-
-### 🚧 Default Error Messages
-```php
-'http_not_found' => 'The requested resource or endpoint could not be located.',
-'unauthenticated' => 'You must be logged in to access this resource. Please provide valid credentials.',
-'model_not_found' => 'The requested resource could not be found. This resource doesn\'t exist.',
-'unknown_error' => 'An unexpected error has occurred. Please try again later or contact support if the issue persists.',
-```
-
-#### Error Message Breakdown
-- **`http_not_found`**: Used when a requested endpoint doesn't exist
-- **`unauthenticated`**: Triggered for unauthorized access attempts
-- **`model_not_found`**: Dynamic message for missing database records
-    - Provides clarity on what was not found
-- **`unknown_error`**: Fallback message for unexpected errors
-
-### ⚠️ Internal Server Error Message
-```php
-'show_500_error_message' => true,
-```
-- **Purpose**: Controls whether the actual error message from a 500/internal server error is returned.
-- **Default**: `true` (actual error message will be shown)
-- **Behavior**:
-    - When `true`: The detailed error message is returned, which can aid in debugging.
-    - When `false`: The `unknown_error` response will be used instead, maintaining user-friendliness.
 
 ### 🛠️ Customization Tips
 - Modify the config file located at `config/api-responses.php`
@@ -222,42 +205,36 @@ public function store()
 }
 ```
 
-### Method Signatures
+### Custom Exception Usage Example
 
-### `successResponse()`
-- `$message` (optional): Custom success message
-- `$data` (optional): Response data
-- `$statusCode` (optional): HTTP status code (default: 200)
-
-### `errorResponse()`
-- `$message` (required): Error description
-- `$statusCode` (optional): HTTP error code (default: 400)
-- `$details` (optional) Error details
-- `$documentation` (optional): Error documentation link
-- `$debug` (optional): Additional debug information
+```php
+// In your exception handler or controller
+throw new \App\Exceptions\CustomException('Something custom happened!');
+// This will return a response with your custom message and status code as defined in config.
+```
 
 ## 🧪 Testing
+
 Run the test suite using the following command:
-**Using `composer`** &nbsp; [<img align="center" src="https://img.shields.io/badge/PHP-777BB4.svg?style={badge_style}&logo=php&logoColor=white" />](https://www.php.net/)
 
 ```sh
 vendor/bin/pest
 ```
 
+The test suite covers:
+- All response types (success, error, validation, etc.)
+- Config-driven behaviors (e.g., toggling debug, 500 error message)
+- Custom exception mapping
+- Facade and service usage
 
-[//]: # (---)
+## 🏆 Best Practices
 
-[//]: # (## 📌 Project Roadmap)
-
-[//]: # ()
-[//]: # (- [X] **`Task 1`**: <strike>Implement feature one.</strike>)
-
-[//]: # (- [ ] **`Task 2`**: Implement feature two.)
-
-[//]: # (- [ ] **`Task 3`**: Implement feature three.)
-
-[//]: # ()
-[//]: # (---)
+This package follows modern Laravel and PHP best practices:
+- Uses strict types throughout the codebase
+- Type-hinted methods and properties
+- Robust configuration and extensibility
+- Well-documented PHPDoc blocks for IDE support
+- Fully tested with Pest and Testbench
 
 ## 🔰 Contributing
 

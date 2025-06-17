@@ -1,25 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Harrisonratcliffe\LaravelApiResponses;
 
 use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
-use Illuminate\Support\ServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class ApiResponsesServiceProvider extends ServiceProvider
+/**
+ * @internal
+ */
+class ApiResponsesServiceProvider extends PackageServiceProvider
 {
-    public function register(): void
+    public function configurePackage(Package $package): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/api-responses.php', 'api-responses');
+        $package
+            ->name('api-responses')
+            ->hasConfigFile('api-responses');
+    }
 
+    public function registeringPackage(): void
+    {
         $this->app->singleton('api-response', function () {
             return new ApiResponseService;
         });
-    }
-
-    public function boot(): void
-    {
-        $this->publishes([
-            __DIR__.'/../config/api-responses.php' => config_path('api-responses.php'),
-        ], 'apiresponses-config');
     }
 }
