@@ -23,3 +23,14 @@ it('returns an error response', function () {
     expect($response->getData()->status)->toBe('error');
     expect($response->getData()->error->message)->toBe('An error occurred');
 });
+
+it('returns an error response with details, documentation, and debug', function () {
+    $service = new ApiResponseService;
+    $debug = ['trace' => 'debug info'];
+    $response = $service->error('Error with details', 422, ['field' => 'invalid'], 'https://docs.example.com', $debug);
+    expect($response->getStatusCode())->toBe(422);
+    expect($response->getData()->status)->toBe('error');
+    expect((array) $response->getData()->details)->toEqual(['field' => 'invalid']);
+    expect($response->getData()->documentation)->toBe('https://docs.example.com');
+    expect($response->getData()->debug)->toEqual($debug);
+});
