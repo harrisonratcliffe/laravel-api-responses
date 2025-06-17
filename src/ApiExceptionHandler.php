@@ -142,15 +142,4 @@ class ApiExceptionHandler extends Exception
             })->all(),
         ];
     }
-
-    /**
-     * Prepare a user-friendly error message from the exception.
-     *
-     * @param  Throwable  $exception  The exception to extract the message from.
-     * @return string A user-friendly error message.
-     */
-    private function prepareExceptionMessage(Throwable $exception): string
-    {
-        return $exception->getMessage() ?: config('api-responses.unknown_error');
-    }
 }
