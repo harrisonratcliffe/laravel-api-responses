@@ -94,7 +94,7 @@ class ApiExceptionHandler
                 $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
                 break;
             default:
-                if (config('api-responses.show_500_error_message') && !empty($message)) {
+                if (config('api-responses.show_500_error_message') && ! empty($message)) {
                     // Use the exception's message if configured and not empty
                 } else {
                     $message = config('api-responses.unknown_error');
