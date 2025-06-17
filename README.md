@@ -51,7 +51,7 @@ Before getting started with Laravel API Responses, ensure your runtime environme
 
 - **Programming Language:** PHP
 - **Package Manager:** Composer
-- **Laravel Version:** 7 or later
+- **Laravel Version:** 8.0 or later
 
 
 ## ⚙️ Installation

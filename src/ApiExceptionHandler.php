@@ -50,8 +50,8 @@ class ApiExceptionHandler extends Exception
     /**
      * Prepare the response data for a given exception.
      *
-     * @param  Throwable  $exception  The exception to prepare data for.
-     * @return array<mixed> An array containing the status code and message.
+     * @param  \Throwable  $exception  The exception to prepare data for.
+     * @return array Status code, message, and details.
      */
     private function prepareApiExceptionData(Throwable $exception): array
     {
@@ -110,7 +110,7 @@ class ApiExceptionHandler extends Exception
     /**
      * Check for custom exception mapping in config.
      *
-     * @return array<string, mixed>|null
+     * @return array|null
      */
     private function getCustomExceptionMapping(Throwable $exception): ?array
     {
@@ -127,8 +127,8 @@ class ApiExceptionHandler extends Exception
     /**
      * Extract detailed exception data if in debug mode.
      *
-     * @param  Throwable  $exception  The exception to extract data from.
-     * @return array<mixed> An array containing detailed exception information.
+     * @param  \Throwable  $exception  The exception to extract data from.
+     * @return array Detailed exception information.
      */
     private function extractExceptionData(Throwable $exception): array
     {
