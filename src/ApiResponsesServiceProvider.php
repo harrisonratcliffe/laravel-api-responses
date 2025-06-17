@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Harrisonratcliffe\LaravelApiResponses;
 
 use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
