@@ -39,7 +39,7 @@ jobs:
           verbose: true
 
       - name: Install dependencies (${{ matrix.stability }})
-        run: composer update --no-interaction --no-progress --{{ matrix.stability }}
+        run: composer update --no-interaction --no-progress --${{ matrix.stability }}
 
       - name: Run Pest tests
         run: ./vendor/bin/pest 
