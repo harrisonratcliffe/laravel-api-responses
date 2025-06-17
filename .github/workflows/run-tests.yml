@@ -20,7 +20,7 @@ jobs:
           - 8.3
           - 8.4
         stability:
-          - prefer-lowest
+          - lowest
           - stable
 
     name: "P8.{{ matrix.php }} - {{ matrix.stability }}"
@@ -39,7 +39,7 @@ jobs:
           verbose: true
 
       - name: Install dependencies (${{ matrix.stability }})
-        run: composer update --no-interaction --no-progress --${{ matrix.stability }}
+        run: composer update --no-interaction --no-progress --prefer-${{ matrix.stability }}
 
       - name: Run Pest tests
         run: ./vendor/bin/pest 
