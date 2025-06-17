@@ -19,11 +19,11 @@ jobs:
           - 8.2
           - 8.3
           - 8.4
-        stability:
-          - lowest
-          - stable
+        composer_flag:
+          - prefer-lowest
+          - prefer-stable
 
-    name: "P8.{{ matrix.php }} - {{ matrix.stability }}"
+    name: "P8.{{ matrix.php }} - Composer ${{ matrix.composer_flag }}"
 
     steps:
       - name: Checkout code
@@ -38,8 +38,8 @@ jobs:
         env:
           verbose: true
 
-      - name: Install dependencies (${{ matrix.stability }})
-        run: composer update --no-interaction --no-progress --prefer-${{ matrix.stability }}
+      - name: Install dependencies (${{ matrix.composer_flag }})
+        run: composer update --no-interaction --no-progress --${{ matrix.composer_flag }}
 
       - name: Run Pest tests
         run: ./vendor/bin/pest 
