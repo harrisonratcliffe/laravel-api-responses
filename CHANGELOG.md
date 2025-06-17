@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.0.0 - 2025-06-17
+
+### What's Changed
+
+* build(deps): bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot in https://github.com/harrisonratcliffe/laravel-api-responses/pull/8
+
+**Full Changelog**: https://github.com/harrisonratcliffe/laravel-api-responses/compare/2.2.3...v3.0.0
+
 ## 3.0.0 - 2025-06-17
 
 ### What's Changed
