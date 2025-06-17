@@ -3,7 +3,6 @@
 namespace Harrisonratcliffe\LaravelApiResponses\Tests;
 
 use Harrisonratcliffe\LaravelApiResponses\ApiResponsesServiceProvider;
-use Orchestra\Testbench\TestCase;
 
 trait UsesApiResponses
 {
@@ -18,4 +17,4 @@ trait UsesApiResponses
     {
         config()->set('database.default', 'testing');
     }
-} 
+}

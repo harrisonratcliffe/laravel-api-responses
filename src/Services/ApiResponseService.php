@@ -11,7 +11,7 @@ class ApiResponseService
      *
      * @param  array<string, mixed>|null  $data
      */
-    public function success(?string $message = null, array|null $data = null, ?int $statusCode = null): JsonResponse
+    public function success(?string $message = null, ?array $data = null, ?int $statusCode = null): JsonResponse
     {
         $message = $message ?? config('api-responses.success_response');
         $statusCode = $statusCode ?? config('api-responses.success_status_code');
@@ -34,7 +34,7 @@ class ApiResponseService
      * @param  array<string, mixed>|null  $details
      * @param  array<string, mixed>|null  $debug
      */
-    public function error(string $message, int $statusCode = 400, array|null $details = null, ?string $documentation = null, array|null $debug = null): JsonResponse
+    public function error(string $message, int $statusCode = 400, ?array $details = null, ?string $documentation = null, ?array $debug = null): JsonResponse
     {
         $responsePayload = [
             'status' => 'error',
