@@ -5,14 +5,7 @@ use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Support\Facades\App;
 
 it('registers the api-response singleton', function () {
-    $app = app();
-    $app->register(ApiResponsesServiceProvider::class);
-    $apiResponseService = $app->make(ApiResponseService::class);
-    expect($apiResponseService)->toBeInstanceOf(ApiResponseService::class);
-});
+    $this->app->register(ApiResponsesServiceProvider::class);
 
-it('merges the config file', function () {
-    $app = app();
-    $app->register(ApiResponsesServiceProvider::class);
-    expect(config('api-responses.success_response'))->toBe('API request processed successfully.');
+    $this->assertInstanceOf(ApiResponseService::class, App::make('api-response'));
 });

@@ -7,11 +7,14 @@ use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -41,7 +44,7 @@ class ApiExceptionHandler extends Exception
         return $this->apiResponseService->error(
             $responseData['message'],
             $responseData['statusCode'],
-            $responseData['details'] ?? null,
+            isset($responseData['details']) ? $responseData['details'] : null,
             null,
             $debugData
         );
@@ -50,21 +53,11 @@ class ApiExceptionHandler extends Exception
     /**
      * Prepare the response data for a given exception.
      *
-     * @param  \Throwable  $exception  The exception to prepare data for.
-     * @return array Status code, message, and details.
+     * @param  Throwable  $exception  The exception to prepare data for.
+     * @return array<mixed> An array containing the status code and message.
      */
     private function prepareApiExceptionData(Throwable $exception): array
     {
-        // Check for custom exception mapping
-        $custom = $this->getCustomExceptionMapping($exception);
-        if ($custom !== null) {
-            return [
-                'message' => $custom['message'],
-                'statusCode' => $custom['status'],
-                'details' => $custom['details'] ?? null,
-            ];
-        }
-
         $responseData = [];
         $message = $exception->getMessage();
 
@@ -75,7 +68,7 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = $message;
             $responseData['statusCode'] = 405;
         } elseif ($exception instanceof ModelNotFoundException) {
-            $responseData['message'] = config('api-responses.model_not_found');
+            $responseData['message'] = config('api-responses.http_not_found');
             $responseData['statusCode'] = 404;
         } elseif ($exception instanceof AuthorizationException || $exception instanceof AccessDeniedHttpException) {
             $responseData['message'] = config('api-responses.not_authorized');
@@ -91,7 +84,7 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = config('api-responses.rate_limit');
             $responseData['statusCode'] = 429;
         } else {
-            if (config('api-responses.show_500_error_message') && ! empty($message)) {
+            if (config('api-responses.show_500_error_message') && !empty($message)) {
                 $responseData['message'] = $message;
             } else {
                 $responseData['message'] = config('api-responses.unknown_error');
@@ -107,28 +100,12 @@ class ApiExceptionHandler extends Exception
         return $responseData;
     }
 
-    /**
-     * Check for custom exception mapping in config.
-     *
-     * @return array|null
-     */
-    private function getCustomExceptionMapping(Throwable $exception): ?array
-    {
-        $customExceptions = config('api-responses.custom_exceptions', []);
-        foreach ($customExceptions as $class => $data) {
-            if ($exception instanceof $class) {
-                return $data;
-            }
-        }
-
-        return null;
-    }
 
     /**
      * Extract detailed exception data if in debug mode.
      *
-     * @param  \Throwable  $exception  The exception to extract data from.
-     * @return array Detailed exception information.
+     * @param  Throwable  $exception  The exception to extract data from.
+     * @return array<mixed> An array containing detailed exception information.
      */
     private function extractExceptionData(Throwable $exception): array
     {
@@ -141,5 +118,16 @@ class ApiExceptionHandler extends Exception
                 return Arr::except($trace, ['args']);
             })->all(),
         ];
+    }
+
+    /**
+     * Prepare a user-friendly error message from the exception.
+     *
+     * @param  Throwable  $exception  The exception to extract the message from.
+     * @return string A user-friendly error message.
+     */
+    private function prepareExceptionMessage(Throwable $exception): string
+    {
+        return $exception->getMessage() ?: config('api-responses.unknown_error');
     }
 }
