@@ -7,14 +7,11 @@ use Harrisonratcliffe\LaravelApiResponses\Services\ApiResponseService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -84,7 +81,7 @@ class ApiExceptionHandler extends Exception
             $responseData['message'] = config('api-responses.rate_limit');
             $responseData['statusCode'] = 429;
         } else {
-            if (config('api-responses.show_500_error_message') && !empty($message)) {
+            if (config('api-responses.show_500_error_message') && ! empty($message)) {
                 $responseData['message'] = $message;
             } else {
                 $responseData['message'] = config('api-responses.unknown_error');
@@ -99,7 +96,6 @@ class ApiExceptionHandler extends Exception
 
         return $responseData;
     }
-
 
     /**
      * Extract detailed exception data if in debug mode.
